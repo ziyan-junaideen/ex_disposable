@@ -1,23 +1,51 @@
 # ExDisposable
 
-**TODO: Add description**
+Disposable email domain checks for Elixir applications, backed by the upstream
+`disposable-email-domains` blocklist.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ex_disposable` to your list of dependencies in `mix.exs`:
+Add `ex_disposable` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:ex_disposable, "~> 0.1.0"}
+    {:ex_disposable, "~> 0.3.0"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/ex_disposable>.
+`Ecto` support is optional. The core email checker works without it.
+
+## Usage
+
+```elixir
+iex> ExDisposable.disposable?("person@0-mail.com")
+true
+
+iex> ExDisposable.disposable?("person@example.com")
+false
+```
+
+The check normalizes case and surrounding whitespace before extracting the email
+domain.
+
+## Ecto changeset validation
+
+If your project uses `Ecto`, import `ExDisposable.Ecto.Changeset` and add the
+validator to your changeset pipeline:
+
+```elixir
+def changeset(user, attrs) do
+  user
+  |> Ecto.Changeset.cast(attrs, [:email])
+  |> Ecto.Changeset.validate_required([:email])
+  |> ExDisposable.Ecto.Changeset.validate_not_disposable_email(:email)
+end
+```
+
+You can override the default error message with `message: "..."`
+when needed.
 
 ## Development
 
