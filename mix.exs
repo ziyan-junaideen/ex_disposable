@@ -24,6 +24,7 @@ defmodule ExDisposable.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "0.40.1", only: :dev, runtime: false},
       {:ecto, "~> 3.13", optional: true}
     ]
