@@ -1,6 +1,8 @@
 defmodule ExDisposable.Ecto.ChangesetTest do
   use ExUnit.Case, async: true
 
+  doctest ExDisposable.Ecto.Changeset
+
   import ExDisposable.Ecto.Changeset
 
   test "adds an error when the email uses a disposable domain" do

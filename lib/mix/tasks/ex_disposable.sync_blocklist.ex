@@ -2,6 +2,16 @@ defmodule Mix.Tasks.ExDisposable.SyncBlocklist do
   use Mix.Task
 
   @shortdoc "Downloads the upstream disposable email blocklist and opens a PR"
+  @moduledoc """
+  Downloads the latest upstream disposable email blocklist, bumps the package
+  version, and opens a GitHub pull request for the release update.
+
+  ## Usage
+
+      mix ex_disposable.sync_blocklist
+
+  The task requires a clean git worktree plus `git` and `gh` on `PATH`.
+  """
 
   @impl Mix.Task
   def run(arguments) do

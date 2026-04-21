@@ -7,7 +7,10 @@ defmodule ExDisposable.MixProject do
       version: "0.3.0",
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package(),
+      docs: docs()
     ]
   end
 
@@ -21,7 +24,37 @@ defmodule ExDisposable.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, "0.40.1", only: :dev, runtime: false},
       {:ecto, "~> 3.13", optional: true}
+    ]
+  end
+
+  defp description do
+    "Disposable email domain checks with optional Ecto changeset validation."
+  end
+
+  defp package do
+    [
+      files: ~w(lib priv mix.exs README.md LICENSE),
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/ziyan-junaideen/ex_disposable",
+        "Upstream blocklist" =>
+          "https://github.com/disposable-email-domains/disposable-email-domains"
+      }
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: ["README.md"],
+      source_url: "https://github.com/ziyan-junaideen/ex_disposable",
+      groups_for_modules: [
+        {"Core", [ExDisposable]},
+        {"Ecto", [ExDisposable.Ecto.Changeset]},
+        {"Mix Tasks", [Mix.Tasks.ExDisposable.SyncBlocklist]}
+      ]
     ]
   end
 end
