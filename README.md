@@ -10,7 +10,7 @@ Add `ex_disposable` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ex_disposable, "~> 0.3.0"}
+    {:ex_disposable, "~> 0.5.1"}
   ]
 end
 ```

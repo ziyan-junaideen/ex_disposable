@@ -4,7 +4,7 @@ defmodule ExDisposable.MixProject do
   def project do
     [
       app: :ex_disposable,
-      version: "0.5.0",
+      version: "0.5.1",
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -17,7 +17,8 @@ defmodule ExDisposable.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :inets, :ssl]
+      extra_applications: [:logger, :inets, :ssl],
+      mod: {ExDisposable.Application, []}
     ]
   end
 
