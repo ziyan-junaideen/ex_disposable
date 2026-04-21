@@ -17,18 +17,25 @@ end
 
 `Ecto` support is optional. The core email checker works without it.
 
-## Usage
+## Quick start
 
 ```elixir
 iex> ExDisposable.disposable?("person@0-mail.com")
 true
 
+iex> ExDisposable.disposable?(" PERSON@subdomain.0-mail.com ")
+true
+
 iex> ExDisposable.disposable?("person@example.com")
+false
+
+iex> ExDisposable.disposable?("not-an-email")
 false
 ```
 
-The check normalizes case and surrounding whitespace before extracting the email
-domain.
+`ExDisposable.disposable?/1` normalizes case and surrounding whitespace before
+extracting the email domain. It also treats subdomains of blocked domains as
+disposable.
 
 ## Ecto changeset validation
 
@@ -44,10 +51,10 @@ def changeset(user, attrs) do
 end
 ```
 
-You can override the default error message with `message: "..."`
-when needed.
+The validator adds `"uses a disposable email domain"` by default. You can
+override it with `message: "..."` when needed.
 
-## Development
+## Updating the bundled blocklist
 
 Use `mix ex_disposable.sync_blocklist` to download the latest upstream disposable
 email blocklist into `priv/disposable_email_blocklist.conf`. When the upstream
@@ -61,3 +68,12 @@ file changes, the task will:
 
 The task prints each step as it runs and refuses to continue if the git worktree
 is dirty.
+
+## Generating docs locally
+
+Install development dependencies and build the docs with:
+
+```sh
+mix deps.get
+mix docs
+```

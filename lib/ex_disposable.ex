@@ -1,23 +1,51 @@
 defmodule ExDisposable do
   @moduledoc """
-  Checks whether an email address belongs to a disposable email domain.
-  """
+  Public API for checking whether an email address belongs to a disposable email
+  domain.
 
-  @doc """
-  Returns `true` when the email address uses a disposable email domain from the
-  bundled blocklist.
+  `ExDisposable` ships with a bundled copy of the upstream
+  `disposable-email-domains` blocklist and performs fast in-memory checks at
+  runtime.
 
-  Invalid or incomplete email addresses return `false`.
+  For Ecto changeset validation, see `ExDisposable.Ecto.Changeset`.
 
   ## Examples
 
       iex> ExDisposable.disposable?("person@0-mail.com")
       true
 
+      iex> ExDisposable.disposable?(" PERSON@subdomain.0-mail.com ")
+      true
+
+      iex> ExDisposable.disposable?("person@example.com")
+      false
+  """
+
+  @doc """
+  Returns `true` when the email address uses a disposable email domain from the
+  bundled blocklist.
+
+  The check normalizes case and surrounding whitespace before extracting the
+  domain. Invalid or incomplete email addresses return `false`.
+
+  ## Examples
+
+      iex> ExDisposable.disposable?("person@0-mail.com")
+      true
+
+      iex> ExDisposable.disposable?(" PERSON@0-MAIL.COM ")
+      true
+
+      iex> ExDisposable.disposable?("person@subdomain.0-mail.com")
+      true
+
       iex> ExDisposable.disposable?("person@example.com")
       false
 
       iex> ExDisposable.disposable?("not-an-email")
+      false
+
+      iex> ExDisposable.disposable?(nil)
       false
 
   """

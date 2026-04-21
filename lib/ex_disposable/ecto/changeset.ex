@@ -3,16 +3,48 @@ defmodule ExDisposable.Ecto.Changeset do
   Helpers for validating email fields against disposable domains in
   `Ecto.Changeset`s.
 
+  `ExDisposable.Ecto.Changeset` requires the optional `:ecto` dependency to be
+  available at runtime.
+
   ## Examples
 
-      import ExDisposable.Ecto.Changeset
-
-      changeset
-      |> validate_not_disposable_email(:email)
+      iex> changeset =
+      ...>   {%{}, %{email: :string}}
+      ...>   |> Ecto.Changeset.cast(%{email: "person@0-mail.com"}, [:email])
+      ...>   |> ExDisposable.Ecto.Changeset.validate_not_disposable_email(:email)
+      iex> changeset.errors
+      [email: {"uses a disposable email domain", []}]
   """
 
   @compile {:no_warn_undefined, Ecto.Changeset}
 
+  @doc """
+  Validates that the given email field does not use a disposable domain.
+
+  ## Options
+
+    * `:message` - overrides the default `"uses a disposable email domain"`
+      validation message.
+
+  ## Examples
+
+      iex> changeset =
+      ...>   {%{}, %{email: :string}}
+      ...>   |> Ecto.Changeset.cast(%{email: "person@example.com"}, [:email])
+      ...>   |> ExDisposable.Ecto.Changeset.validate_not_disposable_email(:email)
+      iex> changeset.errors
+      []
+
+      iex> changeset =
+      ...>   {%{}, %{email: :string}}
+      ...>   |> Ecto.Changeset.cast(%{email: "person@0-mail.com"}, [:email])
+      ...>   |> ExDisposable.Ecto.Changeset.validate_not_disposable_email(
+      ...>     :email,
+      ...>     message: "must not use a disposable inbox"
+      ...>   )
+      iex> changeset.errors
+      [email: {"must not use a disposable inbox", []}]
+  """
   @spec validate_not_disposable_email(term(), atom(), Keyword.t()) :: term()
   def validate_not_disposable_email(changeset, field, options \\ []) do
     ensure_ecto_changeset!()
