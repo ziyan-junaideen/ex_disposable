@@ -77,3 +77,13 @@ Install development dependencies and build the docs with:
 mix deps.get
 mix docs
 ```
+
+## Development checks
+
+Run the formatter, strict Credo checks, and test suite with:
+
+```sh
+mix format
+mix credo --strict
+mix test
+```

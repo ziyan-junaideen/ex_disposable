@@ -4,7 +4,7 @@ defmodule ExDisposable.MixProject do
   def project do
     [
       app: :ex_disposable,
-      version: "0.4.0",
+      version: "0.5.0",
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -24,6 +24,7 @@ defmodule ExDisposable.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "0.40.1", only: :dev, runtime: false},
       {:ecto, "~> 3.13", optional: true}
     ]
