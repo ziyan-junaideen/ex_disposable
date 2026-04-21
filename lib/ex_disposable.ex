@@ -55,8 +55,8 @@ defmodule ExDisposable do
       nil ->
         false
 
-      domain ->
-        ExDisposable.Blocklist.disposable_domain?(domain)
+      normalized_domain ->
+        ExDisposable.Blocklist.disposable_normalized_domain?(normalized_domain)
     end
   end
 
